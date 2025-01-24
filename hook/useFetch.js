@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // import { NYT_API_KEY } from '@env'
 
-const nytApiKey = ''
+const nytApiKey = 'n0gE6mwEP8g2Vzn2NCkGIPlBfGXa1YXQ'
 // const nytApiKey = NYT_API_KEY
 // console.log("api",nytApiKey)
 

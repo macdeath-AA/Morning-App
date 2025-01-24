@@ -8,7 +8,7 @@ const NewsCard = ({item}) => {
   return (
     <View style={styles.container}>
       <Text>NewsCard - {item.title}</Text>
-      <Text>NewsCard - {item.uri}</Text>
+      <Text>NewsCard - {item.url}</Text>
     </View>
   )
 }

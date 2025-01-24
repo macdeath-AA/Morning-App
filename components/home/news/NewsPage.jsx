@@ -14,7 +14,8 @@ import { COLORS, SIZES } from "../../../constants";
 const NewsPage = () => {
     const router = useRouter();
 
-    const { data, isLoading, error } = useFetch('home')
+    const { data, isLoading, error } = useFetch('home') 
+    // ideally call for api's other than home
 
     // console.log("news data");
     // console.log(data);
@@ -42,17 +43,6 @@ const NewsPage = () => {
                     />
                 )}
             </View>
-
-            {/* <View style={styles.cardsContainer}>
-                <FlatList
-                    data={data}
-                    renderItem={({ item }) => (
-                        <NewsCard
-                            item={item}
-                        />
-                    )}
-                />
-            </View> */}
         </View>
 
     )
