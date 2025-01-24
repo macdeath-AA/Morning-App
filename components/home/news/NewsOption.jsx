@@ -11,10 +11,10 @@ const NewsOption = () => {
     <View>
       <TouchableOpacity
         onPress={() => {
-          router.push(`/news`)
+          router.push(`/newscategories`)
           // should route to news page which is the NewsPage component
         }}>
-        <Text>News from NY Times!!</Text>
+        <Text>News from NY Times!! (click)</Text>
       </TouchableOpacity>
     </View>
   )

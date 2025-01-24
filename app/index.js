@@ -5,7 +5,7 @@ import { Stack, useRouter } from 'expo-router';
 import { COLORS, icons, images, SIZES } from '../constants';
 import { ScreenHeaderBtn, Welcome } from '../components';
 import NewsOption from '../components/home/news/NewsOption';
-import NewsPage from '../components/home/news/NewsPage';
+import NewsPage from '.';
 
 
 const Home = () => {
@@ -27,7 +27,7 @@ const Home = () => {
             <View style={{ flex: 1, padding: SIZES.medium }}>
                 <Welcome />
                 <NewsOption />
-                <NewsPage />
+                {/* <NewsPage />/ */}
             </View>
 
             {/* </ScrollView> */}
