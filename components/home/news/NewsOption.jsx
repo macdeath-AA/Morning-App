@@ -8,13 +8,13 @@ import styles from './newsoption.style'
 const NewsOption = () => {
   const router = useRouter();
   return (
-    <View style={styles.container}>
+    <View>
       <TouchableOpacity
         onPress={() => {
           router.push(`/news`)
           // should route to news page which is the NewsPage component
         }}>
-        <Text>News from NY Times</Text>
+        <Text>News from NY Times!!</Text>
       </TouchableOpacity>
     </View>
   )
