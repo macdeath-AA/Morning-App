@@ -5,6 +5,8 @@
       "expo-router"
     ],
     "name": "morning-app",
-    "slug": "morning-app"
+    "slug": "morning-app",
+    "platforms": ["ios", "android", "web"],
+    "web": {"favicon": "./assets/icons/google.png"}
   }
 }
