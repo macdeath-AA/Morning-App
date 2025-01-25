@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "492517802507",
+    "project_id": "mas-assignment-f3dc8",
+    "storage_bucket": "mas-assignment-f3dc8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492517802507:android:f42f46d02269282d167d0e",
+        "android_client_info": {
+          "package_name": "com.anonymous.morningapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492517802507-6587ohgkn175mvms6tlgsqdk6lh21f2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsI_KvsqPAK8AOzk7t8cZWH77ptMo5MdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492517802507-6587ohgkn175mvms6tlgsqdk6lh21f2m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

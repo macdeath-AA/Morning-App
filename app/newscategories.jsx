@@ -13,6 +13,10 @@ import CategoryCard from '../components/common/cards/news/CategoryCard';
 import FloatingButton from '../components/common/floatingbutton/FloatingButton';
 import CheckBox from 'react-native-check-box';
 
+import { collection, addDoc } from "firebase/firestore";
+// import { FIRESTORE_DB } from "..firebaseConfig"; // Adjust the path to your firebase.js file
+import { FIRESTORE_DB } from '../firebaseConfig';
+
 
 const NewsCategories = () => {
     const router = useRouter();
@@ -40,6 +44,19 @@ const NewsCategories = () => {
         alert('Selected items: ' + selectedItems.join(', ')); // Handle selected items
         handleCloseModal(); // Close modal after confirming selection
     };
+
+
+    const addData = async () => {
+        try {
+          const docRef = await addDoc(collection(FIRESTORE_DB, "users"), {
+            name: "John Doe",
+            age: 25,
+          });
+          console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      };
 
     const isLoading = false
     const error = false
@@ -81,6 +98,13 @@ const NewsCategories = () => {
                 </View>
             </View>
             <FloatingButton onPress={handleFloatingButtonPress} />
+
+            <TouchableOpacity onPress={addData}>
+                    <View>
+                    <Text>Firestore test</Text>
+                    </View>
+                    
+            </TouchableOpacity>
 
             <Modal
                 visible={modalVisible}

@@ -5,6 +5,9 @@
       "expo-router"
     ],
     "name": "morning-app",
-    "slug": "morning-app"
+    "slug": "morning-app",
+    "android": {
+      "package": "com.anonymous.morningapp"
+    }
   }
 }
