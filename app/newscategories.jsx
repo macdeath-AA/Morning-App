@@ -1,19 +1,18 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, SafeAreaView, Modal, ScrollView } from 'react-native'
 import { Stack, useRouter } from 'expo-router';
 
 
 import styles from '../components/home/news/newsoption.style'
 import { FlatList } from 'react-native';
-import useFetch from '../hook/useFetch'
 
 import { COLORS, SIZES } from "../constants";
 import CategoryCard from '../components/common/cards/news/CategoryCard';
 import FloatingButton from '../components/common/floatingbutton/FloatingButton';
 import CheckBox from 'react-native-check-box';
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 // import { FIRESTORE_DB } from "..firebaseConfig"; // Adjust the path to your firebase.js file
 import { FIRESTORE_DB } from '../firebaseConfig';
 
@@ -23,6 +22,8 @@ const NewsCategories = () => {
     const allCategories = ['home', 'arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'movies', 'politics', 'science', 'sports', 'technology', 'world']
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]); // Track selected items
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleToggle = (item) => {
         setSelectedItems((prevSelectedItems) =>
@@ -41,25 +42,76 @@ const NewsCategories = () => {
     };
 
     const handleConfirmSelection = () => {
-        alert('Selected items: ' + selectedItems.join(', ')); // Handle selected items
+        // alert('Selected items: ' + selectedItems.join(', ')); // Handle selected items
+        setCategories("testuser@gmail.com", selectedItems)
         handleCloseModal(); // Close modal after confirming selection
     };
 
-
-    const addData = async () => {
+    const setCategories = async (documentId, items) => {
         try {
-          const docRef = await addDoc(collection(FIRESTORE_DB, "users"), {
-            name: "John Doe",
-            age: 25,
-          });
-          console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-          console.error("Error adding document: ", e);
-        }
-      };
+            // Reference to the document
+            const docRef = doc(FIRESTORE_DB, "news", documentId);
+            const data = { "categories": items }
 
-    const isLoading = false
-    const error = false
+            await setDoc(docRef, data);
+
+            console.log(`Document '${documentId}' added successfully to collection news`);
+        } catch (error) {
+            console.error("Error adding document:", error);
+        }
+    };
+
+    const getDocument = async () => {
+        try {
+            const docRef = doc(FIRESTORE_DB, "news", "testuser@gmail.com");
+
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data());
+                return docSnap.data(); // Returns the document data
+            } else {
+                console.log("No such document!");
+            }
+        } catch (error) {
+            console.error("Error fetching document:", error);
+            setError(true);
+        }
+    };
+
+    const fetchData = async () => {
+        try {
+            const processedItems = [];
+            const querySnapshot = await getDocument();
+            console.log("qeurysnapshot", querySnapshot["categories"])
+
+            if (Array.isArray(querySnapshot["categories"])) {
+                querySnapshot["categories"].forEach((item) => {
+                    processedItems.push(item); // Add processed item to the list
+                    console.log(`pushed ${item}`);
+                });
+            }
+            return processedItems;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setError(true);
+            return [];
+        }
+    };
+
+    // Populate selectedItems using fetchData
+    useEffect(() => {
+        const populateSelectedItems = async () => {
+            setIsLoading(true);
+            const items = await fetchData();
+            setSelectedItems(items);
+            setIsLoading(false);
+        };
+
+        populateSelectedItems();
+    }, []);
+
+    console.log("selected", selectedItems)
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -99,12 +151,12 @@ const NewsCategories = () => {
             </View>
             <FloatingButton onPress={handleFloatingButtonPress} />
 
-            <TouchableOpacity onPress={addData}>
-                    <View>
+            {/* <TouchableOpacity onPress={addData}>
+                <View>
                     <Text>Firestore test</Text>
-                    </View>
-                    
-            </TouchableOpacity>
+                </View>
+
+            </TouchableOpacity> */}
 
             <Modal
                 visible={modalVisible}
