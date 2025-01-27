@@ -5,22 +5,29 @@ import { COLORS, icons, images, SIZES } from '../constants';
 import { ScreenHeaderBtn, Welcome } from '../components';
 import NewsOption from '../components/home/news/NewsOption';
 import NewsPage from '.';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../firebaseConfig';
 import Login from './Login';
+// import Signup from './signup';
 import { ActivityIndicator } from 'react-native';
 
 
 const Home = () => {
     const router = useRouter();
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect( () => {
-        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
+           if (user){
             setLoading(false);
+            // router.push(`/`)
+           } else{
+            router.push(`/Login`);
+           }
+        //    setLoading(false);
         });
+
         return unsubscribe;
     },[]);
 
@@ -32,19 +39,25 @@ const Home = () => {
         );
     }
 
-    if (!user){
-        return <Login/>;
-    }
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
             <Stack.Screen
                 options={{
                     headerStyle: { backgroundColor: COLORS.lightWhite },
                     headerRight: () => (
-                        <ScreenHeaderBtn iconUrl={images.profile} dimension="100%" />
+                        <ScreenHeaderBtn  text = "LogOut"
+                        dimension="50%" 
+                        handlePress={() => {
+                            signOut(FIREBASE_AUTH)
+                            .then(()=> {
+                                router.push(`/Login`);
+                            })
+                            .catch((error) => {
+                                console.error("Logout Error", error);
+                            })
+                        }}/>
                     ),
-                    headerTitle: ""
+                    headerTitle: "Morning App"
                 }}
             />
 

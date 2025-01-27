@@ -1,16 +1,16 @@
 import React from 'react'
-import { TouchableOpacity, Image } from 'react-native'
+import { TouchableOpacity, Text } from 'react-native'
 
 import styles from './screenheader.style'
+import { signOut } from 'firebase/auth'
+import { FIREBASE_AUTH } from '../../../firebaseConfig'
 
-const ScreenHeaderBtn = ({iconUrl, dimension, handlePress}) => {
+const ScreenHeaderBtn = ({text, dimension, handlePress}) => {
   return (
-    <TouchableOpacity style = {styles.btnContainer} onPress={handlePress}>
-      <Image
-        source={iconUrl}
-        resizeMode="cover"
-        style = {styles.btnImg(dimension)}
-      />
+    <TouchableOpacity style = {[styles.btnContainer, {width: dimension}]} 
+    onPress={handlePress}>
+  
+      <Text>{text}</Text>
     </TouchableOpacity>
   )
 }

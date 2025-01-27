@@ -2,21 +2,23 @@ import React, {useState} from "react";
 import {View, Text, TextInput, Button, StyleSheet, Alert} from 'react-native';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../firebaseConfig";
+import { useRouter } from "expo-router";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
-    const handleLogin = async () => {
-        setLoading(true);
+    const handleLogin = () => {
+        // setLoading(true);
         try {
-            await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+            signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+            // Alert.alert('Success', 'You are logged in!');
+            router.push(`/index.js`);
         } catch (error) {
             Alert.alert('Login Error', error.message);
-        } finally {
-            setLoading(false);
-        }
+        } 
     };
 
     return (
@@ -38,13 +40,31 @@ const Login = () => {
                 placeholder="Password"
                 value= {password}
                 onChangeText={setPassword}
+                autoCapitalize="none"
                 secureTextEntry
             />
+            <View style= {Loginstyles.buttonContainer}>
             <Button
-                title= {loading ? "Loggin in..." : "Login"}
+                title= {"Login"}
                 onPress={handleLogin}
-                disabled = {loading}           
+                // disabled = {loading}           
             />
+            <Text style = {Loginstyles.signupText}>
+                Don't have an account? {' '}
+                <Text 
+                    style ={Loginstyles.signupLink}
+                    onPress = {() => router.push(`/signup`)}>
+                    
+                    Sign Up
+                    
+                </Text>
+            </Text>
+            {/* <Button
+                title="Sign Up"
+                color="gray"
+                onPress={ () => router.push(`/signup`)}
+            /> */}
+            </View>
 
         </View>
     );
@@ -70,6 +90,21 @@ const Loginstyles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 16,
     },
+    buttonContainer: {
+        width: '100%',
+        marginTop: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    signupText: {
+        textAlign: "center",
+        marginTop: 20,
+    },
+    signupLink: {
+        color: 'blue',
+        fontWeight: 'bold'
+    }
+
 });
 
 export default Login;
