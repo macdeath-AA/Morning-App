@@ -20,22 +20,22 @@ const firebaseConfig = {
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 
-let FIREBASE_AUTH;
-try {
-  FIREBASE_AUTH = initializeAuth(FIREBASE_APP,{
-    persistence: getReactNativePersistence(AsyncStorage)
-  });
+// let FIREBASE_AUTH;
+// try {
+//   FIREBASE_AUTH = initializeAuth(FIREBASE_APP,{
+//     persistence: getReactNativePersistence(AsyncStorage)
+//   });
   
-} catch (error){
-  if (error.code ==="auth-already-initialized"){
-    FIREBASE_AUTH = getAuth(FIREBASE_APP);
-  } else{
-    throw error;
-  }
-}
+// } catch (error){
+//   if (error.code ==="auth-already-initialized"){
+//     FIREBASE_AUTH = getAuth(FIREBASE_APP);
+//   } else{
+//     throw error;
+//   }
+// }
 
-export {FIREBASE_AUTH};
-// export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
+// export {FIREBASE_AUTH};
+export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 
 
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);
