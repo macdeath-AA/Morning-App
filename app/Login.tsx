@@ -15,7 +15,7 @@ const Login = () => {
         try {
             signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
             // Alert.alert('Success', 'You are logged in!');
-            router.push(`/index.js`);
+            router.push(`/`);
         } catch (error) {
             Alert.alert('Login Error', error.message);
         } 
