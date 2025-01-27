@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleLogin = () => {
@@ -77,6 +77,7 @@ const Loginstyles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         backgroundColor: '#fff',
+    
     },
     title: {
         fontSize: 24,
