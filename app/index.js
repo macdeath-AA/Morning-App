@@ -43,7 +43,7 @@ const Home = () => {
                 options={{
                     headerStyle: { backgroundColor: COLORS.lightWhite },
                     headerRight: () => (
-                        <ScreenHeaderBtn  text = "LogOut"
+                        <ScreenHeaderBtn  text = "Log Out"
                         dimension="50%" 
                         handlePress={async () => {
                             // signOut(FIREBASE_AUTH)
@@ -62,7 +62,8 @@ const Home = () => {
                              
                         }}/>
                     ),
-                    headerTitle: "Morning App"
+                    headerTitle: "Morning App",
+                    headerBackVisible: false
                 }}
             />
 
