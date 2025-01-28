@@ -43,17 +43,24 @@ const Home = () => {
                 options={{
                     headerStyle: { backgroundColor: COLORS.lightWhite },
                     headerRight: () => (
-                        <ScreenHeaderBtn text="Log Out"
-                            dimension="50%"
-                            handlePress={() => {
-                                signOut(FIREBASE_AUTH)
-                                    .then(() => {
-                                        router.push(`/Login`);
-                                    })
-                                    .catch((error) => {
-                                        console.error("Logout Error", error);
-                                    })
-                            }} />
+                        <ScreenHeaderBtn  text = "LogOut"
+                        dimension="50%" 
+                        handlePress={async () => {
+                            // signOut(FIREBASE_AUTH)
+                            // .then(()=> {
+                            //     router.push(`/Login`);
+                            // })
+                            // .catch((error) => {
+                            //     console.error("Logout Error", error);
+                            // })
+                            try {
+                                await signOut(FIREBASE_AUTH);
+                                router.push(`/Login`);
+                            } catch (error){
+                                console.error("logout error", error);
+                            }
+                             
+                        }}/>
                     ),
                     headerTitle: "Morning App"
                 }}
