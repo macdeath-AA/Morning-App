@@ -9,12 +9,20 @@ import Login from './Login';
 // import Signup from './signup';
 import { ActivityIndicator } from 'react-native';
 import styles from './welcome.style'
+import useFacts from '../hook/useFacts';
+import useFactsWorking from '../hook/useFactsWorking';
+
 
 const Home = () => {
     const router = useRouter();
+    const {fact} = useFactsWorking();
+    const {test} = useFacts();
+
     // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    
+    // const {facts} = useFacts();
+    console.log(test)
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
             if (user) {
@@ -46,13 +54,7 @@ const Home = () => {
                         <ScreenHeaderBtn  text = "Log Out"
                         dimension="50%" 
                         handlePress={async () => {
-                            // signOut(FIREBASE_AUTH)
-                            // .then(()=> {
-                            //     router.push(`/Login`);
-                            // })
-                            // .catch((error) => {
-                            //     console.error("Logout Error", error);
-                            // })
+    
                             try {
                                 await signOut(FIREBASE_AUTH);
                                 router.push(`/Login`);
@@ -80,6 +82,7 @@ const Home = () => {
                     }}>
                         <Text style={styles.cardTitle}>News</Text>
                         <Text style={styles.cardContent}>
+                            
                             Stay updated with the latest news and current events happening around the world.
                         </Text>
                     </TouchableOpacity>
@@ -87,11 +90,16 @@ const Home = () => {
 
                 {/* Stocks Card */}
                 <View style={[styles.card, styles.stocksCard]}>
-                    <Text style={styles.cardTitle}>Stocks</Text>
+                    <Text style={styles.cardTitle}>Useless Facts Daily</Text>
                     <Text style={styles.cardContent}>
-                        Get real-time updates and insights on stock market trends and financial news.
+                        {fact || "Loading fact..."}
+
+                        {/* console.log("test test") */}
+                        {/* {error ? "Failed to load fact." : facts?.message || "No fact available for today."} */}
                     </Text>
+                    
                 </View>
+                
             </View>
 
         </SafeAreaView>
