@@ -24,7 +24,7 @@ const NewsPage = () => {
                 options={{
                     headerStyle: { backgroundColor: COLORS.lightWhite },
                     headerShadowVisible: true,
-                    headerBackVisible: true,
+                    // headerBackVisible: true,
                     // headerLeft: () => (
                     //     <ScreenHeaderBtn
                     //         iconUrl={icons.left}

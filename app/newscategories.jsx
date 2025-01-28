@@ -13,17 +13,18 @@ import FloatingButton from '../components/common/floatingbutton/FloatingButton';
 import CheckBox from 'react-native-check-box';
 
 import { collection, addDoc, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
-// import { FIRESTORE_DB } from "..firebaseConfig"; // Adjust the path to your firebase.js file
-import { FIRESTORE_DB } from '../firebaseConfig';
+import { FIRESTORE_DB, FIREBASE_AUTH } from '../firebaseConfig';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 const NewsCategories = () => {
     const router = useRouter();
-    const allCategories = ['home', 'arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'movies', 'politics', 'science', 'sports', 'technology', 'world']
+    const allCategories = ['arts', 'automobiles', 'business', 'fashion', 'food', 'health', 'movies', 'politics', 'science', 'sports', 'technology', 'world']
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]); // Track selected items
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [email, setEmail] = useState("");
 
     const handleToggle = (item) => {
         setSelectedItems((prevSelectedItems) =>
@@ -43,7 +44,7 @@ const NewsCategories = () => {
 
     const handleConfirmSelection = () => {
         // alert('Selected items: ' + selectedItems.join(', ')); // Handle selected items
-        setCategories("testuser@gmail.com", selectedItems)
+        setCategories(email, selectedItems)
         handleCloseModal(); // Close modal after confirming selection
     };
 
@@ -63,7 +64,8 @@ const NewsCategories = () => {
 
     const getDocument = async () => {
         try {
-            const docRef = doc(FIRESTORE_DB, "news", "testuser@gmail.com");
+            const email = getUserEmail()
+            const docRef = doc(FIRESTORE_DB, "news", email);
 
             const docSnap = await getDoc(docRef);
 
@@ -83,9 +85,9 @@ const NewsCategories = () => {
         try {
             const processedItems = [];
             const querySnapshot = await getDocument();
-            console.log("qeurysnapshot", querySnapshot["categories"])
+            console.log("qeurysnapshot", querySnapshot)
 
-            if (Array.isArray(querySnapshot["categories"])) {
+            if (querySnapshot && Array.isArray(querySnapshot["categories"])) {
                 querySnapshot["categories"].forEach((item) => {
                     processedItems.push(item); // Add processed item to the list
                     console.log(`pushed ${item}`);
@@ -103,6 +105,7 @@ const NewsCategories = () => {
     useEffect(() => {
         const populateSelectedItems = async () => {
             setIsLoading(true);
+            setEmail(getUserEmail())
             const items = await fetchData();
             setSelectedItems(items);
             setIsLoading(false);
@@ -113,17 +116,30 @@ const NewsCategories = () => {
 
     console.log("selected", selectedItems)
 
+    const getUserEmail = () => {
+        const auth = getAuth(); // Retrieve the auth instance
+        const currentUser = auth.currentUser;
+      
+        if (currentUser) {
+          console.log('User Email:', currentUser.email);
+          return currentUser.email;
+        } else {
+          console.log('No user is signed in.');
+          return null;
+        }
+      };
+            
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
             <Stack.Screen
                 options={{
                     headerStyle: { backgroundColor: COLORS.lightWhite },
                     headerShadowVisible: true,
-                    headerBackVisible: true,
+                    // headerBackVisible: true,
                     headerTitle: "News Cateogories"
                 }}
             />
-
             <View>
                 <View style={styles.cardsContainer}>
                     {isLoading ? (

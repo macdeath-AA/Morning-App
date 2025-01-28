@@ -1,11 +1,16 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Linking, Image} from 'react-native'
+import { View, Text, TouchableOpacity, Linking, Image } from 'react-native'
 
 import styles from './newscard.style'
 
 const NewsCard = ({ item }) => {
   console.log("item", item)
-  console.log("item", item.multimedia[0].url)
+  // console.log("item", item.multimedia[0].url)
+  const thumbnailUrl =
+    item.multimedia && Array.isArray(item.multimedia) && item.multimedia[0]
+      ? item.multimedia[0].url
+      : null;
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -14,12 +19,10 @@ const NewsCard = ({ item }) => {
         <View style={styles.articleContainer}>
           <View style={styles.content}>
             <Text>{item.title}</Text>
-            
           </View>
-          {/* <Image source={{uri:'${item.multimedia[0].url}'}}
-            style={styles.thumbnail}/> */}
-            <Image source={{uri:item.multimedia[0].url}}
-            style={styles.thumbnail}/>
+          {thumbnailUrl && (
+            <Image source={{ uri: thumbnailUrl }} style={styles.thumbnail} />
+          )}
         </View>
 
       </TouchableOpacity>
