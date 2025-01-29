@@ -15,8 +15,9 @@ import useFactsWorking from '../hook/useFactsWorking';
 
 const Home = () => {
     const router = useRouter();
-    const {fact} = useFactsWorking();
     const {test} = useFacts();
+    const {fact} = useFactsWorking();
+    
 
     // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);

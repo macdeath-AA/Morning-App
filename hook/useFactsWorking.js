@@ -15,8 +15,7 @@ const useFactsWorking = () => {
             // const test = await response.json();
             if (response.data && response.data.text) {
                 setFact(response.data.text); 
-                // let testfact = response.data.text;
-                 // Set fact in state
+                
               } else {
                 setFact("No fact available for today.");
               }
